@@ -73,3 +73,12 @@ class Pizza(object):
         for size in range(self.min_ingredients, self.max_cells_per_slice + 1):
             slices += self.enum_slices_for_size(size)
         return slices
+
+    def print_pizza(self):
+        for i in self.layout:
+            for j in i:
+                if isinstance(j, Tomato):
+                    print "T",
+                else:
+                    print "M",
+            print ""

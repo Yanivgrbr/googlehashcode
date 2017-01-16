@@ -9,8 +9,8 @@ def recurse(pizza):
 
     for slice_type in pizza.enum_slices():
 
-        for i in pizza.width:
-            for j in pizza.height:
+        for i in xrange(pizza.num_of_rows):
+            for j in xrange(pizza.num_of_cols):
 
                 # try put the slice here
                 new_slice = Slice(i, j, *slice_type)
@@ -28,7 +28,7 @@ def recurse(pizza):
 
 def main():
 
-    pizza = Pizza(4, 4, 2, 3, [["TTTM"], ["MMMT"], ["TTMM"]])
+    pizza = Pizza(4, 4, 2, 3, ["TTTM", "MMMT", "TTMM"])
     recurse(pizza)
 
 
