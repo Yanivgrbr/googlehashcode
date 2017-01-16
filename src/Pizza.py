@@ -122,7 +122,7 @@ class Pizza(object):
                 elif type(ingredient) == Taken:
                     return False
 
-        if number_of_tomatoes < self.min_ingredients or number_of_mushrooms < self.min_ingredients:
+        if number_of_tomatoes < self.min_ingredients and number_of_mushrooms < self.min_ingredients:
             return False
 
         # Nothing failed, all's good!
