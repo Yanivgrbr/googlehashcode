@@ -5,7 +5,7 @@ from Pizza import Pizza
 # Current file path
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 # Default file name
-DEFAULT_INPUT_FILE_NAME = "..\small.in"
+DEFAULT_INPUT_FILE_NAME = "..\input\small.in"
 
 
 def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
