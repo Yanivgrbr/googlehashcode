@@ -22,6 +22,8 @@ def add_slice(pizza, slice):
         for y in range(slice.bottom, slice.top):
             new_pizza.layout[x][y] = Taken()
 
+    return new_pizza
+
 
 class Pizza(object):
     def __init__(self, num_of_rows, num_of_cols, min_ingredients, max_cells_per_slice, layout):
@@ -82,3 +84,44 @@ class Pizza(object):
                 else:
                     print "M",
             print ""
+
+    def is_valid(self, pslice):
+        '''
+        - Doesn't exceed pizza's boundaries
+        - Doesn't exceed maximum number of cells
+        - Has minimum amount of tomatoes and mushrooms
+        '''
+
+        # Boundaries
+        if pslice.left < 0 or pslice.top < 0:
+            return False
+
+        if pslice.right >= self.num_of_cols or pslice.bottom >= self.num_of_rows:
+            return False
+
+        # Maximum # of cells
+        if pslice.width * pslice.height > self.max_cells_per_slice:
+            return False
+
+        # Enough mushrooms & tomatoes
+        number_of_tomatoes = 0
+        number_of_mushrooms = 0
+        for col in xrange(pslice.width + 1):
+            for row in xrange(pslice.height + 1):
+                ingredient = self.get_ingredient(
+                    pslice.top + row, pslice.left + col)
+
+                if type(ingredient) == Mushroom:
+                    number_of_mushrooms += 1
+
+                elif type(ingredient) == Tomato:
+                    number_of_tomatoes += 1
+
+                elif type(ingredient) == Taken:
+                    return False
+
+        if number_of_tomatoes < self.min_ingredients or number_of_mushrooms < self.min_ingredients:
+            return False
+
+        # Nothing failed, all's good!
+        return True

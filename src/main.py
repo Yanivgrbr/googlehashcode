@@ -1,6 +1,6 @@
 
 from Slice import Slice
-from Pizza import Pizza
+import Pizza
 
 
 def recurse(pizza):
@@ -15,21 +15,22 @@ def recurse(pizza):
                 # try put the slice here
                 new_slice = Slice(i, j, *slice_type)
 
-                if new_slice.is_valid():
+                if pizza.is_valid(new_slice):
 
                     found_valid_slice = True
-                    return recurse(pizza.add_slice(new_slice))
+                    return recurse(Pizza.add_slice(pizza, new_slice))
 
     if not found_valid_slice:
         # No valid slice found for this pizza, this is the end
 
-        return pizza.calculate_score()
+        return pizza.get_num_of_taken_cells()
 
 
 def main():
 
-    pizza = Pizza(4, 4, 2, 3, ["TTTM", "MMMT", "TTMM"])
-    recurse(pizza)
+    import pdb; pdb.set_trace()
+    pizza = Pizza.Pizza(3, 4, 2, 3, ["TTTM", "MMMT", "TTMM"])
+    print recurse(pizza)
 
 
 if __name__ == '__main__':
