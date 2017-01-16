@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from src.parser import read_input_file
 
 
