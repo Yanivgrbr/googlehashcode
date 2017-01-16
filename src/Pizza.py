@@ -18,9 +18,9 @@ def add_slice(pizza, pslice):
 
     new_pizza.slices.append(pslice)
 
-    for x in range(pslice.left, pslice.right + 1):
-        for y in range(pslice.top, pslice.bottom + 1):
-            new_pizza.layout[x][y] = Taken()
+    for row in range(pslice.top, pslice.bottom + 1):
+        for col in range(pslice.left, pslice.right + 1):
+            new_pizza.layout[row][col] = Taken()
 
     return new_pizza
 
@@ -50,6 +50,7 @@ class Pizza(object):
             self.layout.append(next_row)
 
     def get_ingredient(self, row, col):
+        #print "(%d, %d)" %(row,col)
         return self.layout[row][col]
 
     def get_num_of_taken_cells(self):
@@ -62,20 +63,14 @@ class Pizza(object):
 
         return taken_counter
 
-    def enum_slices_for_size(self, size):
-        shapes = []
-        for width in range(1, size + 1):
-            if size % width == 0:
-                hight = size / width
-                shape = (width, hight)
-                shapes.append(shape)
-        return shapes
-
     # return all possible shapes and sizes
     def enum_slices(self):
         slices = []
-        for size in range(self.min_ingredients * 2, self.max_cells_per_slice + 1):
-            slices += self.enum_slices_for_size(size)
+        # TODO: make more efficient
+        for w in range(self.min_ingredients, self.max_cells_per_slice + 1):
+            for h in range(self.min_ingredients, self.max_cells_per_slice + 1):
+                if w*h >= self.min_ingredients * 2:
+                    slices.append((w,h))
         return slices
 
     def print_pizza(self):
@@ -109,9 +104,10 @@ class Pizza(object):
         number_of_tomatoes = 0
         number_of_mushrooms = 0
 
-        for x in range(pslice.left, pslice.right + 1):
-            for y in range(pslice.top, pslice.bottom + 1):
-                ingredient = self.get_ingredient(x, y)
+        for row in range(pslice.top, pslice.bottom + 1):
+            for col in range(pslice.left, pslice.right + 1):
+
+                ingredient = self.get_ingredient(row, col)
 
                 if type(ingredient) == Mushroom:
                     number_of_mushrooms += 1
@@ -122,7 +118,7 @@ class Pizza(object):
                 elif type(ingredient) == Taken:
                     return False
 
-        if number_of_tomatoes < self.min_ingredients and number_of_mushrooms < self.min_ingredients:
+        if number_of_tomatoes < self.min_ingredients or number_of_mushrooms < self.min_ingredients:
             return False
 
         # Nothing failed, all's good!

@@ -1,34 +1,34 @@
 class Slice(object):
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
+    def __init__(self, row, col, width, height):
+        self.row = row
+        self.col = col
         self.width = width
         self.height = height
 
     @property
     def left(self):
-        return self.x
+        return self.col
 
     @property
     def right(self):
-        return self.x+self.width
+        return self.col + self.width - 1
 
     @property
     def top(self):
-        return self.y
+        return self.row
 
     @property
     def bottom(self):
-        return self.y+self.height
+        return self.row + self.height - 1
 
     def grow_right(self):
         self.width += 1
 
     def grow_left(self):
-        self.x -= 1
+        self.col -= 1
 
     def grow_up(self):
-        self.y -= 1
+        self.yrow-= 1
 
     def grow_down(self):
         self.height += 1
