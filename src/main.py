@@ -1,6 +1,14 @@
-
 from Slice import Slice
 import Pizza
+
+
+def print_output(out_file_path, pizza):
+    with open(out_file_path, "wb") as out_file:
+        num_of_slices = len(pizza.slices)
+        out_file.write(num_of_slices + "\n")
+        for p_slice in pizza.slices:
+            out_file.write("%d %d %d %d\n" % (
+                p_slice.top, p_slice.left, p_slice.bottom - 1, p_slice.right - 1))
 
 
 def recurse(pizza):
@@ -30,7 +38,8 @@ def recurse(pizza):
 
 def main():
 
-    import pdb; pdb.set_trace()
+    import pdb
+    pdb.set_trace()
     pizza = Pizza.Pizza(3, 4, 1, 2, ["TTTM", "MMMT", "TTMM"])
     print recurse(pizza)
 
