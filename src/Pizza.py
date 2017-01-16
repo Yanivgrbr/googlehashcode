@@ -74,7 +74,7 @@ class Pizza(object):
     # return all possible shapes and sizes
     def enum_slices(self):
         slices = []
-        for size in range(self.min_ingredients, self.max_cells_per_slice + 1):
+        for size in range(self.min_ingredients * 2, self.max_cells_per_slice + 1):
             slices += self.enum_slices_for_size(size)
         return slices
 
