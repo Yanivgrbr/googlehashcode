@@ -15,7 +15,9 @@ def recurse(pizza):
                 # try put the slice here
                 new_slice = Slice(i, j, *slice_type)
 
+                print "Trying slice at: (%d %d) %d by %d" % (i, j, *slice_type)
                 if pizza.is_valid(new_slice):
+
 
                     found_valid_slice = True
                     return recurse(Pizza.add_slice(pizza, new_slice))
@@ -29,7 +31,7 @@ def recurse(pizza):
 def main():
 
     import pdb; pdb.set_trace()
-    pizza = Pizza.Pizza(3, 4, 2, 3, ["TTTM", "MMMT", "TTMM"])
+    pizza = Pizza.Pizza(3, 4, 1, 2, ["TTTM", "MMMT", "TTMM"])
     print recurse(pizza)
 
 
