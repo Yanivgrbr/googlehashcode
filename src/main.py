@@ -7,17 +7,17 @@ def recurse(pizza):
 
     found_valid_slice = False
 
-    for slice_type in pizza.enum_slices():
+    for slice_width, slice_height in pizza.enum_slices():
 
         for i in xrange(pizza.num_of_rows):
             for j in xrange(pizza.num_of_cols):
 
                 # try put the slice here
-                new_slice = Slice(i, j, *slice_type)
+                new_slice = Slice(i, j, slice_width, slice_height)
 
-                print "Trying slice at: (%d %d) %d by %d" % (i, j, *slice_type)
+                print "Trying slice at: (%d,%d) size: %d x %d" % (i, j, slice_width, slice_height)
                 if pizza.is_valid(new_slice):
-
+                    print "valid!"
 
                     found_valid_slice = True
                     return recurse(Pizza.add_slice(pizza, new_slice))
