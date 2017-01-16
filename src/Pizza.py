@@ -87,10 +87,10 @@ class Pizza(object):
                 if type(ingredient) == Mushroom:
                     number_of_mushrooms += 1
 
-                if type(ingredient) == Tomato:
+                elif type(ingredient) == Tomato:
                     number_of_tomatoes += 1
 
-                if type(ingredient) == Taken:
+                elif type(ingredient) == Taken:
                     return False
 
         if number_of_tomatoes < self.min_ingredients or number_of_mushrooms < self.min_ingredients:
