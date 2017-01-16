@@ -13,13 +13,13 @@ class Taken(object):
     pass
 
 
-def add_slice(pizza, slice):
+def add_slice(pizza, pslice):
     new_pizza = copy.deepcopy(pizza)
 
-    new_pizza.slices.append(slice)
+    new_pizza.slices.append(pslice)
 
-    for x in range(slice.left, slice.right):
-        for y in range(slice.bottom, slice.top):
+    for x in range(pslice.left, pslice.right + 1):
+        for y in range(pslice.bottom, pslice.top + 1):
             new_pizza.layout[x][y] = Taken()
 
 
@@ -41,8 +41,10 @@ class Pizza(object):
             for col in row:
                 if col == 'T':
                     next_row.append(Tomato())
-                else:
+                elif col == 'M':
                     next_row.append(Mushroom())
+                elif col == 'X':
+                    next_row.append(Taken())
             self.layout.append(next_row)
 
     def get_ingredient(self, row, col):
@@ -80,9 +82,9 @@ class Pizza(object):
         # Enough mushrooms & tomatoes
         number_of_tomatoes = 0
         number_of_mushrooms = 0
-        for col in xrange(pslice.width + 1):
-            for row in xrange(pslice.height + 1):
-                ingredient = self.get_ingredient(pslice.top + row, pslice.left + col)
+        for x in range(pslice.left, pslice.right + 1):
+            for y in range(pslice.bottom, pslice.top + 1):
+                ingredient = self.get_ingredient(x, y)
 
                 if type(ingredient) == Mushroom:
                     number_of_mushrooms += 1
