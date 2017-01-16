@@ -57,3 +57,19 @@ class Pizza(object):
                     taken_counter += 1
 
         return taken_counter
+
+    def enum_slices_for_size(self, size):
+        shapes = []
+        for width in range(1, size + 1):
+            if size % width == 0:
+                hight = size / width
+                shape = (width, hight)
+                shapes.append(shape)
+        return shapes
+
+    # return all possible shapes and sizes
+    def enum_slices(self):
+        slices = []
+        for size in range(self.min_ingredients, self.max_cells_per_slice + 1):
+            slices += self.enum_slices_for_size(size)
+        return slices
