@@ -82,7 +82,7 @@ class Pizza(object):
         number_of_mushrooms = 0
         for col in xrange(pslice.width + 1):
             for row in xrange(pslice.height + 1):
-                ingredient = self.get_ingredient(self.top + row, pslice.left + col)
+                ingredient = self.get_ingredient(pslice.top + row, pslice.left + col)
 
                 if type(ingredient) == Mushroom:
                     number_of_mushrooms += 1
