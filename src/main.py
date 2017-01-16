@@ -38,9 +38,7 @@ def recurse(pizza):
 
 def main():
 
-    import pdb
-    pdb.set_trace()
-    pizza = Pizza.Pizza(3, 4, 1, 2, ["TTTM", "MMMT", "TTMM"])
+    pizza = Pizza.Pizza(3, 5, 1, 2, ["MMMMM", "MTTTM", "MMMMM"])
     print recurse(pizza)
 
 
