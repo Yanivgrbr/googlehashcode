@@ -19,7 +19,7 @@ def add_slice(pizza, pslice):
     new_pizza.slices.append(pslice)
 
     for x in range(pslice.left, pslice.right + 1):
-        for y in range(pslice.bottom, pslice.top + 1):
+        for y in range(pslice.top, pslice.bottom + 1):
             new_pizza.layout[x][y] = Taken()
 
     return new_pizza
@@ -110,7 +110,7 @@ class Pizza(object):
         number_of_mushrooms = 0
 
         for x in range(pslice.left, pslice.right + 1):
-            for y in range(pslice.bottom, pslice.top + 1):
+            for y in range(pslice.top, pslice.bottom + 1):
                 ingredient = self.get_ingredient(x, y)
 
                 if type(ingredient) == Mushroom:
