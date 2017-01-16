@@ -1,5 +1,6 @@
 from Slice import Slice
 
+
 def enum_slices_for_size(size):
     shapes = []
     for width in range(1, size + 1):
@@ -18,11 +19,11 @@ def enum_slices(min_size, max_size):
     return slices
 
 
-def recurse(pizza, slice_types):
+def recurse(pizza):
 
     found_valid_slice = False
 
-    for slice_type in slice_types:
+    for slice_type in SLICE_SIZES:
 
         for i in pizza.width:
             for j in pizza.height:
@@ -33,7 +34,7 @@ def recurse(pizza, slice_types):
                 if new_slice.is_valid():
 
                     found_valid_slice = True
-                    recurse(pizza - slice, slice_types)
+                    return recurse(pizza.add_slice(new_slice))
 
     if not found_valid_slice:
         # No valid slice found for this pizza, this is the end
@@ -41,11 +42,16 @@ def recurse(pizza, slice_types):
         return pizza.calculate_score()
 
 
+SLICE_SIZES = []
+
+
 def main():
 
     pizza = object()
-    recurse(pizza, slice_types=enum_slices(
-        pizza.slice_min_size, pizza.slice_max_size))
+
+    global SLICE_SIZES
+    SLICE_SIZES = enum_slices(pizza.min_ingredients, pizza.max_cells_per_slice)
+    recurse(pizza)
 
 
 if __name__ == '__main__':
