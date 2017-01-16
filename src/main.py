@@ -1,5 +1,13 @@
-
 from Slice import Slice
+
+
+def print_output(out_file_path, pizza):
+    with open(out_file_path, "wb") as out_file:
+        num_of_slices = len(pizza.slices_list)
+        out_file.write(num_of_slices + "\n")
+        for p_slice in num_of_slices:
+            out_file.write("%d %d %d %d\n" % (
+                p_slice.top, p_slice.left, p_slice.bottom - 1, p_slice.right - 1))
 
 
 def enum_slices_for_size(size):
