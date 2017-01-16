@@ -1,11 +1,11 @@
 #!/usr/bin/python
 import os
-import Pizza
+from Pizza import Pizza
 
 # Current file path
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 # Default file name
-DEFAULT_INPUT_FILE_NAME = "big.in"
+DEFAULT_INPUT_FILE_NAME = "..\small.in"
 
 
 def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
@@ -24,7 +24,7 @@ def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
     with open(file_name, "rb") as f:
 
         # Read configuration (row = 0)
-        (rows, columns, min_ingredients, max_cells_per_slice) = f.readline().strip().split(" ")
+        rows, columns, min_ingredients, max_cells_per_slice = f.readline().strip().split(" ")
 
         # List of rows
         list_rows = []
@@ -48,4 +48,3 @@ def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
         # Return pizza
         return pizza
 
-read_input_file()
