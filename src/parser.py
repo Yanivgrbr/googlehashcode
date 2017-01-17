@@ -5,8 +5,10 @@ from Pizza import Pizza
 # Current file path
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 # Default file name
-DEFAULT_INPUT_FILE_NAME = "..\input\small.in"
+DEFAULT_INPUT_FILE_NAME = "../input/small.in" #TODO: change this to work cross-platform (windows and mac)
 
+def get_demo_pizza():
+    return Pizza(3, 5, 1, 6, ["TTTTT", "TMMMT", "TTTTT"])
 
 def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
     '''
@@ -43,7 +45,7 @@ def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
             list_rows.append(list_row)
 
         # The pizza is in 'list_rows'
-        pizza = Pizza(rows, columns, min_ingredients, max_cells_per_slice, list_rows)
+        pizza = Pizza(int(rows), int(columns), int(min_ingredients), int(max_cells_per_slice), list_rows)
 
         # Return pizza
         return pizza
@@ -51,7 +53,7 @@ def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
 def print_output(out_file_path, pizza):
     with open(out_file_path, "wb") as out_file:
         num_of_slices = len(pizza.slices)
-        out_file.write(num_of_slices + "\n")
+        out_file.write(str(num_of_slices) + "\n")
         for p_slice in pizza.slices:
             out_file.write("%d %d %d %d\n" % (
                 p_slice.top, p_slice.left, p_slice.bottom, p_slice.right))

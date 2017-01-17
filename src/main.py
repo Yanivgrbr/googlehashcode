@@ -1,7 +1,14 @@
+import time
+
 from Slice import Slice
 import Pizza
+import parser
 
-array_pizzas = []
+
+
+# Globals
+DEBUG = False
+list_pizzas = []
 
 def print_output(out_file_path, pizza):
     with open(out_file_path, "wb") as out_file:
@@ -11,37 +18,45 @@ def print_output(out_file_path, pizza):
             out_file.write("%d %d %d %d\n" % (
                 p_slice.top, p_slice.left, p_slice.bottom - 1, p_slice.right - 1))
 
+def print_debug(data):
+    if DEBUG:
+        print data
 
 def recurse(pizza, level = 0):
 
     found_valid_slice = False
 
-    for slice_width, slice_height in pizza.enum_slices():
+    # Try different sizes
+    for slice_width, slice_height in pizza.enum_shapes():
 
-        for i in xrange(pizza.num_of_rows):
-            for j in xrange(pizza.num_of_cols):
+        # In every position
+        for i in xrange(0, pizza.num_of_rows, 1):
+            for j in xrange(0, pizza.num_of_cols, 1):
 
-                # try put the slice here
+                # Skip this location if it's occupied
+                if type(pizza.get_ingredient(i,j)) is Pizza.Taken:
+                    continue
+
+                # Try new slice
                 new_slice = Slice(i, j, slice_width, slice_height)
 
-                print "%sTrying slice at: (%d,%d) size: %d x %d" % ("  " * level, i ,j, slice_width, slice_height),
-                if pizza.is_valid(new_slice):
-                    print " - Valid!"
+                # Debug print
+                print_debug("%sTrying slice at: (%d,%d) size: %d x %d" % ("  " * level, i ,j, slice_width, slice_height))
 
+                # Check if slice is valid
+                if pizza.is_valid(new_slice):
                     found_valid_slice = True
                     recurse(Pizza.add_slice(pizza, new_slice), level+1)
-                else:
-                    print ""
 
+    # No valid slice found for this pizza, this is the end
     if not found_valid_slice:
-        # No valid slice found for this pizza, this is the end
-        array_pizzas.append(pizza)
+        list_pizzas.append(pizza)
 
 def get_best_pizza():
     max_slices = -1
     best_pizza = None
 
-    for pizza in array_pizzas:
+    for pizza in list_pizzas:
         # Get the best pizza slices arrangement
         if max_slices < pizza.get_num_of_taken_cells():
             best_pizza = pizza
@@ -51,24 +66,49 @@ def get_best_pizza():
 
 
 def main():
+    '''
+    Coordinates
+    ----------
+    Because we are working with array of arrays,
+        each inner array is a row in the 2D array.
+        Therefore, first is the Y axis (row number), then comes the X axis (col number)
+
+        (row,col) == (Y,X)
+        (2,4) --> row number 2, column number 4
+
+        Best practice would be to drop x,y terms and use only row,col terms
+    '''
+
+    # Timing
+    time_start = time.time()
 
     # Allocate pizza
-    pizza = Pizza.Pizza(3, 5, 1, 6, ["TTTTT", "TMMMT", "TTTTT"])
+    pizza = parser.get_demo_pizza() #Demo
+    #pizza = parser.read_input_file("../input/small.in") #Small input
+    #pizza = parser.read_input_file("../input/medium.in")  # Medium input
+    #pizza = parser.read_input_file("../input/big.in")  # Big input
 
     # Recursion
     recurse(pizza)
+
+    # Timing
+    time_end = time.time()
 
     # Get best result
     best_pizza = get_best_pizza()
 
     # Debug output
     print "-------------------"
-    print "The best pizza is:"
-    print "     # of taken cells: " + str(best_pizza.get_num_of_taken_cells())
-    print "     slices: "
+    print "OUTPUT RESULTS (%s seconds)" % str(time_end - time_start)
+    print "- There are %d different pizza possibilities." % len(list_pizzas)
+    print "- The best pizza is:"
+    print "     - Number of occupied cells: " + str(best_pizza.get_num_of_taken_cells())
+    print "     - Slices: "
     for s in best_pizza.slices:
         print  "        " + str(s)
 
+    # Output file
+    #parser.print_output("output.txt", best_pizza)
 
 if __name__ == '__main__':
     main()

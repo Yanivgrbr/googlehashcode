@@ -14,14 +14,18 @@ class Taken(object):
 
 
 def add_slice(pizza, pslice):
+    #Todo: time consuming - must be more efficient
+
+    # Memory copy
     new_pizza = copy.deepcopy(pizza)
 
+    # Add new slice
     new_pizza.slices.append(pslice)
 
+    # Update layout
     for row in range(pslice.top, pslice.bottom + 1):
         for col in range(pslice.left, pslice.right + 1):
             new_pizza.layout[row][col] = Taken()
-
     return new_pizza
 
 
@@ -35,6 +39,7 @@ class Pizza(object):
         self.layout = []
         self.__build_pizza(layout)
 
+        self.shapes = []
         self.slices = []
 
     def __build_pizza(self, layout):
@@ -50,7 +55,6 @@ class Pizza(object):
             self.layout.append(next_row)
 
     def get_ingredient(self, row, col):
-        #print "(%d, %d)" %(row,col)
         return self.layout[row][col]
 
     def get_num_of_taken_cells(self):
@@ -64,14 +68,19 @@ class Pizza(object):
         return taken_counter
 
     # return all possible shapes and sizes
-    def enum_slices(self):
-        slices = []
+    def enum_shapes(self):
         # TODO: make more efficient
-        for w in range(self.min_ingredients, self.max_cells_per_slice + 1):
-            for h in range(self.min_ingredients, self.max_cells_per_slice + 1):
-                if w*h >= self.min_ingredients * 2:
-                    slices.append((w,h))
-        return slices
+
+        if self.shapes == []:
+            for w in range(self.min_ingredients, self.max_cells_per_slice + 1):
+                for h in range(self.min_ingredients, self.max_cells_per_slice + 1):
+                    if w*h >= self.min_ingredients * 2 and w*h <= self.max_cells_per_slice:
+                        self.shapes.append((w,h))
+
+            # Drop all duplicates
+            self.shapes = set(self.shapes)
+
+        return self.shapes
 
     def print_pizza(self):
         for i in self.layout:
@@ -103,22 +112,28 @@ class Pizza(object):
         # Enough mushrooms & tomatoes
         number_of_tomatoes = 0
         number_of_mushrooms = 0
+        is_enough_ingredients = False
 
         for row in range(pslice.top, pslice.bottom + 1):
             for col in range(pslice.left, pslice.right + 1):
 
                 ingredient = self.get_ingredient(row, col)
 
-                if type(ingredient) == Mushroom:
+                if type(ingredient) == Taken:
+                    return False
+
+                elif type(ingredient) == Mushroom:
                     number_of_mushrooms += 1
 
                 elif type(ingredient) == Tomato:
                     number_of_tomatoes += 1
 
-                elif type(ingredient) == Taken:
-                    return False
+            # Speed things up
+            if number_of_tomatoes >= self.min_ingredients and number_of_mushrooms >= self.min_ingredients:
+                is_enough_ingredients = True
+                break
 
-        if number_of_tomatoes < self.min_ingredients or number_of_mushrooms < self.min_ingredients:
+        if not is_enough_ingredients:
             return False
 
         # Nothing failed, all's good!
