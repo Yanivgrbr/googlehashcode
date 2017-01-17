@@ -1,16 +1,14 @@
-#!/usr/bin/python
 import os
 from Pizza import Pizza
+
 
 # Current file path
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 # Default file name
-DEFAULT_INPUT_FILE_NAME = "../input/small.in" #TODO: change this to work cross-platform (windows and mac)
+DEFAULT_INPUT_FILE_NAME = "../input/small.in"  # TODO: change this to work cross-platform (windows and mac)
 
-def get_demo_pizza():
-    return Pizza(3, 5, 1, 6, ["TTTTT", "TMMMT", "TTTTT"])
 
-def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
+def read_input_file(file_name=DEFAULT_INPUT_FILE_NAME):
     '''
     Example:
         3 5 1 6
@@ -49,6 +47,7 @@ def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
 
         # Return pizza
         return pizza
+
 
 def print_output(out_file_path, pizza):
     with open(out_file_path, "wb") as out_file:

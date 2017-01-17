@@ -21,17 +21,8 @@ class Slice(object):
     def bottom(self):
         return self.row + self.height - 1
 
-    def grow_right(self):
-        self.width += 1
-
-    def grow_left(self):
-        self.col -= 1
-
-    def grow_up(self):
-        self.yrow-= 1
-
-    def grow_down(self):
-        self.height += 1
+    def is_inside(self, x, y):
+        return self.left <= x <= self.right and self.bottom <= y <= self.top
 
     def __str__(self):
         return "[(%d,%d),(%d,%d)]" % (self.top, self.left, self.bottom, self.right)
