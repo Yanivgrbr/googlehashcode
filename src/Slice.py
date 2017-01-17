@@ -32,3 +32,6 @@ class Slice(object):
 
     def grow_down(self):
         self.height += 1
+
+    def __str__(self):
+        return "[(%d,%d),(%d,%d)]" % (self.top, self.left, self.bottom, self.right)

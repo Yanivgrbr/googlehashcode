@@ -61,7 +61,13 @@ def main():
     # Get best result
     best_pizza = get_best_pizza()
 
-    print "Maximum # of taken cells in pizza: %d" % best_pizza.get_num_of_taken_cells()
+    # Debug output
+    print "-------------------"
+    print "The best pizza is:"
+    print "     # of taken cells: " + str(best_pizza.get_num_of_taken_cells())
+    print "     slices: "
+    for s in best_pizza.slices:
+        print  "        " + str(s)
 
 
 if __name__ == '__main__':

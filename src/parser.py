@@ -48,3 +48,10 @@ def read_input_file(file_name = DEFAULT_INPUT_FILE_NAME):
         # Return pizza
         return pizza
 
+def print_output(out_file_path, pizza):
+    with open(out_file_path, "wb") as out_file:
+        num_of_slices = len(pizza.slices)
+        out_file.write(num_of_slices + "\n")
+        for p_slice in pizza.slices:
+            out_file.write("%d %d %d %d\n" % (
+                p_slice.top, p_slice.left, p_slice.bottom - 1, p_slice.right - 1))
